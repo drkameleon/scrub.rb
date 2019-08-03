@@ -1,0 +1,10 @@
+project "google" {
+	url "https://www.google.com/search?q=$$"
+	feed {
+		"cycling" "pineapple" "apple" "banana"
+	}
+	extract {
+		link "h3 a"
+		title "h3"
+	}
+}

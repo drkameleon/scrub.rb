@@ -1,0 +1,19 @@
+#===================
+# Wikipedia
+# ScrubFile
+#===================
+
+project "Wikipedia" 
+
+urls "https://en.wikipedia.org/wiki/$$"
+
+feed "Italy" "France" \
+	 "Greece" "Spain"
+
+extract "#firstHeading" as="title"
+extract "//a/@href" as="link" {
+	filter "empty?"
+	filter "start_with?" "/"
+	filter "start_with?" "#"
+	filter "include?" "wikipedia.org"
+}

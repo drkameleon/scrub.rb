@@ -1,0 +1,15 @@
+project "wikipedia" {
+	url "https://en.wikipedia.org/wiki/$$"
+	feed {
+		"Italy" \
+		"France" \
+		"Greece" \
+		"Spain"
+	}
+	extract {
+		title "#firstHeading"
+		link "//a/@href" {
+			filter "!good"
+		}
+	}
+}
