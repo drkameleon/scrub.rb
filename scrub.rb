@@ -17,16 +17,20 @@ require 'sdl4r'
 
 require './utils.rb'
 
-def getProject(n)
-	n.children("project").map{|p| p.values[0]}[0]
-end
-
-def getUrls(n)
-	n.children("urls").map{|u| u.values[0]}
+def getUrl(n)
+	if n.children("url")[0].attributes["from"]
+		return SDL4R::read(File.read($dir + "/" + n.children("url")[0].attributes["from"])).children.map{|x| x.name}
+	else
+		n.children("url").map{|u| u.values[0]}
+	end
 end
 
 def getFeed(n)
-	n.children("feed").map{|f| f.values}.flatten
+	if n.children("feed")[0].attributes["from"]
+		return SDL4R::read(File.read($dir + "/" + n.children("feed")[0].attributes["from"])).children.map{|x| x.name}
+	else
+		n.children("feed").map{|f| f.values}.flatten
+	end
 end
 
 def getExtract(n)
@@ -53,11 +57,11 @@ end
 def processProject(proj)
 	result = {}
 
-	urls 	= getUrls(proj)
+	url 	= getUrl(proj)
 	feed 	= getFeed(proj)
 	extract = getExtract(proj)
 
-	urls.each{|u|
+	url.each{|u|
 		feed.each{|f|
 			n = getNoko(u,f)
 
@@ -93,6 +97,7 @@ def processProject(proj)
 end
 
 $input 		= ARGV[0]
+$dir 		= File.dirname($input)
 $project 	= SDL4R::read(File.read($input))
 
 res = processProject($project)

@@ -3,12 +3,9 @@
 # ScrubFile
 #===================
 
-project "Wikipedia" 
+url "https://en.wikipedia.org/wiki/$$"
 
-urls "https://en.wikipedia.org/wiki/$$"
-
-feed "Italy" "France" \
-	 "Greece" "Spain"
+feed from="wikipedia2.feed.sdl"
 
 extract "#firstHeading" as="title"
 extract "//a/@href" as="link" {
